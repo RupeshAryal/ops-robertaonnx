@@ -1,0 +1,29 @@
+name: Build and package RoBERTa-sequencing to Dockerhub
+
+on:
+  Push:
+     branches: [ main ]
+
+   workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Authenticate with Azure
+    - with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+    - name: set auto-install of extensions
+      run: az config set extension.use_dynamic_install=yes_without_prompt
+    - name: attack workspace
+      run: az ml folder attach -w "RupeshMLworkspace" -g "ml-ops"
+    - name: retrieve the model
+      run: az ml model download -t "." --model-id "roberta-sequence:1"
+    - name: build flask-app container
+      uses: docker/build-push-action@v2
+      with:
+        context: ./
+        file: ./Dockerfile
+        push: false
+        tags: rupesharyal/roberta:latest
