@@ -11,7 +11,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Authenticate with Azure
-    - with:
+      uses: azure/login@v1	
+      with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
     - name: set auto-install of extensions
       run: az config set extension.use_dynamic_install=yes_without_prompt
