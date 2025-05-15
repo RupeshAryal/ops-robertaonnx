@@ -15,7 +15,7 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
     - name: set auto-install of extensions
       run: az config set extension.use_dynamic_install=yes_without_prompt
-    - name: attack workspace
+    - name: attach workspace
       run: az ml folder attach -w "RupeshMLworkspace" -g "ml-ops"
     - name: retrieve the model
       run: az ml model download -t "." --model-id "roberta-sequence:1"
