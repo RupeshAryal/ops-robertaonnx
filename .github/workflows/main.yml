@@ -29,6 +29,12 @@ jobs:
           --resource-group aryalrupesh2074-rg \
           --download-path .
           
+    - name: Authenticate to Docker hub
+      uses: docker/login-action@v1
+      with: 
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          
     - name: build flask-app container
       uses: docker/build-push-action@v2
       with:
@@ -37,8 +43,4 @@ jobs:
         push: true
         tags: rupesharyal/roberta:latest
         
-    - name: Authenticate to Docker hub
-      uses: docker/login-action@v1
-      with: 
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
